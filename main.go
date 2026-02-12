@@ -88,7 +88,7 @@ func updateMovie(w http.ResponseWriter, r *http.Request){
 			movies = append(movies[:i],movies[i+1:]...)
 			var movie Movie
 			_ = json.NewDecoder(r.Body).Decode(&movie)
-			movie.ID = strconv.Itoa(rand.Intn(10000000))
+			//movie.ID = strconv.Itoa(rand.Intn(10000000))
 			movies = append(movies,movie)
 			err := json.NewEncoder(w).Encode(movie)
 			if err != nil{
