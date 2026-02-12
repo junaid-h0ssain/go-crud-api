@@ -24,11 +24,48 @@ type Director struct {
 
 var movies []Movie
 
+func getMovies(w http.ResponseWriter, r *http.Request)  {
 
-// changes to check git remote
+	w.Header().Set("Content-Type","application/json")
+	err := json.NewEncoder(w).Encode(movies)
+	if err != nil {
+		return
+	}
+}
+
+func getMovie(w http.ResponseWriter, r *http.Request){
+
+	w.Header().Set("Content-Type","application/json")
+	params := mux.Vars(r)
+
+	//for i, item := range movies {
+	//	if item.ID == params["id"]{
+	//		movies = append(movies [:i], movies[i+1:]...)
+	//		break
+	//	}
+	//}
+
+	for _, item := range movies {
+		if item.ID == params["id"]{
+			err := json.NewEncoder(w).Encode(item)
+			if err != nil {
+				return
+			}
+			break
+		}
+	}
+}
+
+
+
 
 func main() {
 	r := mux.NewRouter()
+
+	movies = append(movies, Movie{ID: "1", Isbn: "234567", Title: "Jaws", Director: &Director{Firstname: "Steven", Lastname: "Spielberg"}})
+	movies = append(movies, Movie{ID: "2", Isbn: "456789", Title: "There will be blood", Director: &Director{Firstname: "Paul-Thomas", Lastname: "Anderson"}})
+	movies = append(movies, Movie{ID: "3", Isbn: "678901", Title: "The Godfather", Director: &Director{Firstname: "Francis Ford", Lastname: "Coppola"}})
+	movies = append(movies, Movie{ID: "4", Isbn: "890123", Title: "The Dark Knight", Director: &Director{Firstname: "Christopher", Lastname: "Nolan"}})
 
 	r.HandleFunc("/movies", getMovies).Methods("GET")
 	r.HandleFunc("/movies:{id}", getMovie).Methods("GET")
