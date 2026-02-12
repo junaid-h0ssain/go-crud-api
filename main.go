@@ -109,11 +109,11 @@ func main() {
 	movies = append(movies, Movie{ID: "4", Isbn: "890123", Title: "The Dark Knight", Director: &Director{Firstname: "Christopher", Lastname: "Nolan"}})
 
 	r.HandleFunc("/movies", getMovies).Methods("GET")
-	r.HandleFunc("/movies:{id}", getMovie).Methods("GET")
+	r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
 	r.HandleFunc("/movies", creatMovie).Methods("POST")
-	r.HandleFunc("movies/{id}", updateMovie).Methods("PUT")
-	r.HandleFunc("movies/{id}", deleteMovie).Methods("DELETE")
+	r.HandleFunc("/movies/{id}", updateMovie).Methods("PUT")
+	r.HandleFunc("/movies/{id}", deleteMovie).Methods("DELETE")
 
-	fmt.Printf("Starting server at port 8080\n")
+	fmt.Printf("Starting server at port 8080\nwaiting for input...")
 	log.Fatal(http.ListenAndServe(":8080",r))
 }
